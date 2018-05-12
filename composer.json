@@ -18,5 +18,18 @@
     "psr-4": {
       "Eze\\Elastic\\": "src"
     }
+  },
+  "keywords": [
+    "elasticsearch",
+    "import",
+    "pdf",
+    "elastic",
+    "importer",
+    "ingest-attachment",
+    "attachment",
+    "search"
+  ],
+  "support": {
+    "issues": "https://github.com/caminoezequiel/elasticsearch-pdf-importer/issues"
   }
 }
