@@ -1,0 +1,22 @@
+{
+  "name": "ce/elasticsearch-pdf-importer",
+  "description": "PDF importer for elasticsearch",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/caminoezequiel",
+  "authors": [
+    {
+      "name": "Camino Ezequiel"
+    }
+  ],
+  "require": {
+    "php": "^7.0 || ^7.1",
+    "ext-iconv": "*",
+    "elasticsearch/elasticsearch": "^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "CE\\Elastic\\": "src"
+    }
+  }
+}
