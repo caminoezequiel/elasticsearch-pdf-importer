@@ -1,16 +1,16 @@
 <?php
 
-namespace CE\Elastic\Importer;
+namespace Eze\Elastic\Importer;
 
-use CE\Elastic\Importer\Reader\ReaderInterface;
-use CE\Elastic\Model\Document;
-use CE\Elastic\Pipeline\Attachment;
+use Eze\Elastic\Importer\Reader\ReaderInterface;
+use Eze\Elastic\Model\Document;
+use Eze\Elastic\Pipeline\Attachment;
 use Elasticsearch\Client;
 
 /**
  * Class BinaryImporter
  *
- * @package CE\Elastic\Importer
+ * @package Eze\Elastic\Importer
  */
 class AttachmentImporter implements ImporterInterface
 {

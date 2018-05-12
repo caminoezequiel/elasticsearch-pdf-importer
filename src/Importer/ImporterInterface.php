@@ -1,8 +1,8 @@
 <?php
 
-namespace CE\Elastic\Importer;
+namespace Eze\Elastic\Importer;
 
-use CE\Elastic\Model\Document;
+use Eze\Elastic\Model\Document;
 
 interface ImporterInterface
 {

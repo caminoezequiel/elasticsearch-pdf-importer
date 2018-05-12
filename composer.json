@@ -1,5 +1,5 @@
 {
-  "name": "ce/elasticsearch-pdf-importer",
+  "name": "eze/elasticsearch-pdf-importer",
   "description": "PDF importer for elasticsearch",
   "type": "library",
   "license": "MIT",

@@ -1,11 +1,11 @@
 <?php
 
-namespace CE\Elastic\Model;
+namespace Eze\Elastic\Model;
 
 /**
  * Class Index
  *
- * @package CE\Elastic\Model
+ * @package Eze\Elastic\Model
  */
 class Index
 {
