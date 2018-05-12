@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "CE\\Elastic\\": "src"
+      "Eze\\Elastic\\": "src"
     }
   }
 }
