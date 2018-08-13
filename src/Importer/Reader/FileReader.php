@@ -24,4 +24,14 @@ class FileReader implements ReaderInterface
         }
         return fread(fopen($path, 'r'), filesize($path));
     }
+
+    /**
+     * @param mixed $uri
+     * @return boolean
+     */
+    public function supports($uri)
+    {
+        $file = realpath($uri);
+        return (file_exists($file) && is_readable($file));
+    }
 }

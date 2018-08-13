@@ -11,4 +11,10 @@ interface ReaderInterface
      */
     public function read(string $path);
 
+    /**
+     * @param mixed $uri
+     * @return boolean
+     */
+    public function supports($uri);
+
 }

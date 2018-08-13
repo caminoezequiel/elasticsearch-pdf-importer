@@ -2,7 +2,7 @@
 
 namespace Eze\Elastic\Importer;
 
-use Eze\Elastic\Importer\Reader\ReaderInterface;
+use Eze\Elastic\Importer\Reader\ReaderResolver;
 use Eze\Elastic\Model\Document;
 use Eze\Elastic\Pipeline\Attachment;
 use Elasticsearch\Client;
@@ -19,20 +19,20 @@ class AttachmentImporter implements ImporterInterface
      */
     private $client;
     /**
-     * @var ReaderInterface
+     * @var ReaderResolver
      */
-    private $reader;
+    private $readerResolver;
 
     /**
      * BinaryImporter constructor.
      *
      * @param Client $client
-     * @param ReaderInterface $reader
+     * @param ReaderResolver $readerResolver
      */
-    public function __construct(Client $client, ReaderInterface $reader)
+    public function __construct(Client $client, ReaderResolver $readerResolver)
     {
         $this->client = $client;
-        $this->reader = $reader;
+        $this->readerResolver = $readerResolver;
     }
 
     /**
@@ -41,15 +41,15 @@ class AttachmentImporter implements ImporterInterface
      */
     public function import(Document $document)
     {
+        $data = $this->readerResolver->resolve($document->getFile())->read($document->getFile());
         $index = $document->getIndex();
-        $file = $this->reader->read($document->getFile());
         $params = [
             'index' => $index->getIndex(),
             'type' => $index->getType(),
             'id' => $index->getId(),
             'pipeline' => Attachment::getName(),
             'body' => [
-                Attachment::getField() => base64_encode($file),
+                Attachment::getField() => base64_encode($data),
             ]
         ];
         foreach ($document->getFields() as $name => $value) {

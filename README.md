@@ -46,16 +46,18 @@ The basic is create a Index, a Document and call to importer.
 
 ```
 $client = (new \Eze\Elastic\Factory())->getClient('localhost:9200');
-$fileReader = new Eze\Elastic\Importer\Reader\FileReader();
-$importer = new \Eze\Elastic\Importer\AttachmentImporter($client, $reader);
+$resolver = new \Eze\Elastic\Importer\Reader\ReaderResolver([
+    new \Eze\Elastic\Importer\Reader\UrlReader(),
+    new \Eze\Elastic\Importer\Reader\FileReader()
+]);
+$importer = new \Eze\Elastic\Importer\AttachmentImporter($client, $resolver);
 
 $file = 'PATH_TO_PDF_FILE.pdf';
-$index = new Index('INDEX', 'TYPE', 'ID:OPTIONAL');
-$document = new Document();
-$document
-    ->setFile($file)
-    ->setIndex($index)
-$id = importer->import($document);
+
+$index = new Eze\Elastic\Model\Index('INDEX', 'TYPE', 'ID:OPTIONAL');
+$document = new Eze\Elastic\Model\Document();
+$document->setFile($file)->setIndex($index);
+$id = $importer->import($document);
 ```
 You can add more field calling to:
 ```
