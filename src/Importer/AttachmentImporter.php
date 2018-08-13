@@ -2,6 +2,7 @@
 
 namespace Eze\Elastic\Importer;
 
+use Eze\Elastic\Importer\Processor\ProcessorInterface;
 use Eze\Elastic\Importer\Reader\ReaderResolver;
 use Eze\Elastic\Model\Document;
 use Eze\Elastic\Pipeline\Attachment;
@@ -19,6 +20,10 @@ class AttachmentImporter implements ImporterInterface
      */
     private $client;
     /**
+     * @var ProcessorInterface
+     */
+    private $processor;
+    /**
      * @var ReaderResolver
      */
     private $readerResolver;
@@ -27,11 +32,13 @@ class AttachmentImporter implements ImporterInterface
      * BinaryImporter constructor.
      *
      * @param Client $client
+     * @param ProcessorInterface $processor
      * @param ReaderResolver $readerResolver
      */
-    public function __construct(Client $client, ReaderResolver $readerResolver)
+    public function __construct(Client $client, ReaderResolver $readerResolver, ProcessorInterface $processor = null)
     {
         $this->client = $client;
+        $this->processor = $processor;
         $this->readerResolver = $readerResolver;
     }
 
@@ -41,7 +48,12 @@ class AttachmentImporter implements ImporterInterface
      */
     public function import(Document $document)
     {
-        $data = $this->readerResolver->resolve($document->getFile())->read($document->getFile());
+        $data = $this->readerResolver
+            ->resolve($document->getFile())
+            ->read($document->getFile());
+        if (!is_null($this->processor)) {
+            $data = $this->processor->process($data);
+        }
         $index = $document->getIndex();
         $params = [
             'index' => $index->getIndex(),

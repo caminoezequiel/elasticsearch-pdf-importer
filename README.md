@@ -66,4 +66,38 @@ $document->addField('FIELD-NAME-ONE', 'VALUE)
     ->addField('FIELD-NAME-THREE', 'VALUE);
 ```
 
+Also you can do data processing before send its to elasticsearch, you only need to do an implementation of `ProcessorInterface`
+
+I have implemented a processor to reduce pdf size with Ghostscript via command line.
+
+_Requirements: php need to allow `exec` function, server need to have installed `ghostscript libgs-dev imagemagick` on ubuntu server_
+
+```
+$client = (new \Eze\Elastic\Factory())->getClient('localhost:9200');
+$resolver = new \Eze\Elastic\Importer\Reader\ReaderResolver([
+    new \Eze\Elastic\Importer\Reader\UrlReader(),
+    new \Eze\Elastic\Importer\Reader\FileReader()
+]);
+$processor = new \Eze\Elastic\Importer\Processor\GhostscriptProcessor();
+$importer = new \Eze\Elastic\Importer\AttachmentImporter($client, $resolver, $processor);
+//
+// or..
+//
+/**
+$manyProcessor = new \Eze\Elastic\Importer\Processor\MultiProcessor([
+    $processor1,
+    $processor2,
+    $processor3,
+]);
+
+$importer = new \Eze\Elastic\Importer\AttachmentImporter($client, $resolver, $manyProcessor);
+*/
+
+$file = 'PATH_TO_PDF_FILE.pdf';
+
+$index = new Eze\Elastic\Model\Index('INDEX', 'TYPE', 'ID:OPTIONAL');
+$document = new Eze\Elastic\Model\Document();
+$document->setFile($file)->setIndex($index);
+$id = $importer->import($document);
+```
 
